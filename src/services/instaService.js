@@ -1,32 +1,30 @@
 export default class InstaService {
-  constructor () {
-    this._apiBase = "http://localhost:3000"; 
+  constructor() {
+    this._apiBase = "http://localhost:3000";
   }
 
   getResource = async (url) => {
-    const res = await fetch(`${this._apiBase}${url}`);
-
-    if (!res.ok) {
-      throw new Error(`Could not fetch ${url}; received ${res.status}`);
+    const response = await fetch(`${this._apiBase}${url}`);
+    if (!response.ok) {
+      throw new Error(`Could not fetch ${url}; received ${response.status}`);
     }
-
-    return await res.json();
-  }
+    return await response.json();
+  };
 
   getAllPosts = async () => {
-    const res = await this.getResource("/posts");
-    return res;
-  }
+    const response = await this.getResource("/posts/");
+    return response;
+  };
 
   getAllPhotos = async () => {
-    const res = await this.getResource("/posts/");
-    return res.map(this._transformPosts);
-  } 
+    const response = await this.getResource("/posts/");
+    return response.map(this._transformPosts);
+  };
 
   _transformPosts = (post) => {
     return {
       src: post.src,
       alt: post.alt
     }
-  }
+  };
 }
